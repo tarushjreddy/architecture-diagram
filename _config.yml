@@ -1,0 +1,50 @@
+# GitHub Pages Configuration
+title: "Architecture Diagrams Collection"
+description: "Professional collection of 50 architecture diagrams covering DevOps, Development, CI/CD, Backend, and Frontend patterns using Mermaid.js"
+author: "Architecture Diagrams Collection"
+url: "https://your-username.github.io"
+baseurl: "/architecture-diagrams"
+
+# Theme settings
+theme: null
+plugins: []
+
+# Build settings
+markdown: kramdown
+highlighter: rouge
+sass:
+  sass_dir: _sass
+  style: compressed
+
+# Exclude from processing
+exclude:
+  - README.md
+  - Gemfile
+  - Gemfile.lock
+  - node_modules
+  - vendor
+  - .sass-cache
+  - .jekyll-cache
+  - .gitignore
+
+# Include files
+include:
+  - _pages
+
+# Collections
+collections:
+  diagrams:
+    output: false
+
+# SEO settings
+lang: en
+timezone: UTC
+
+# Social media and metadata
+google_analytics: # Add your GA tracking ID
+github_username: your-username
+repository: your-username/architecture-diagrams
+
+# Custom variables
+version: "1.0.0"
+last_updated: "2024-01-01" 

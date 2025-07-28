@@ -1,0 +1,391 @@
+/* ===== MERMAID CUSTOM THEME ===== */
+
+/* Override default Mermaid dark theme colors to match our design */
+.mermaid {
+    font-family: var(--font-primary, 'Inter', sans-serif) !important;
+}
+
+/* Flowchart styling */
+.mermaid .node rect,
+.mermaid .node circle,
+.mermaid .node ellipse,
+.mermaid .node polygon {
+    fill: var(--bg-tertiary) !important;
+    stroke: var(--accent-blue) !important;
+    stroke-width: 2px !important;
+}
+
+.mermaid .node .label {
+    color: var(--text-primary) !important;
+    font-family: var(--font-primary) !important;
+    font-size: 14px !important;
+    font-weight: 500 !important;
+}
+
+/* Edge/Arrow styling */
+.mermaid .edgePath .path {
+    stroke: var(--text-secondary) !important;
+    stroke-width: 2px !important;
+    fill: none !important;
+}
+
+.mermaid .arrowheadPath {
+    fill: var(--text-secondary) !important;
+    stroke: var(--text-secondary) !important;
+}
+
+/* Subgraph styling */
+.mermaid .cluster rect {
+    fill: var(--bg-secondary) !important;
+    stroke: var(--border-primary) !important;
+    stroke-width: 1px !important;
+    rx: 8px !important;
+    ry: 8px !important;
+}
+
+.mermaid .cluster .label {
+    color: var(--text-primary) !important;
+    font-family: var(--font-primary) !important;
+    font-size: 16px !important;
+    font-weight: 600 !important;
+}
+
+/* Git Graph styling */
+.mermaid .commit-id,
+.mermaid .commit-msg,
+.mermaid .branch-label {
+    fill: var(--text-primary) !important;
+    font-family: var(--font-primary) !important;
+    font-size: 12px !important;
+}
+
+.mermaid .commit {
+    stroke: var(--accent-blue) !important;
+    stroke-width: 2px !important;
+}
+
+/* Sequence Diagram styling */
+.mermaid .actor {
+    fill: var(--bg-tertiary) !important;
+    stroke: var(--accent-blue) !important;
+    stroke-width: 2px !important;
+}
+
+.mermaid .actor-line {
+    stroke: var(--text-muted) !important;
+    stroke-width: 1px !important;
+}
+
+.mermaid .messageLine0,
+.mermaid .messageLine1 {
+    stroke: var(--text-secondary) !important;
+    stroke-width: 2px !important;
+}
+
+.mermaid .messageText {
+    fill: var(--text-primary) !important;
+    font-family: var(--font-primary) !important;
+    font-size: 13px !important;
+}
+
+.mermaid .labelBox {
+    fill: var(--bg-tertiary) !important;
+    stroke: var(--border-primary) !important;
+}
+
+.mermaid .labelText {
+    fill: var(--text-primary) !important;
+    font-family: var(--font-primary) !important;
+    font-size: 13px !important;
+}
+
+.mermaid .loopText {
+    fill: var(--text-primary) !important;
+    font-family: var(--font-primary) !important;
+    font-size: 12px !important;
+}
+
+.mermaid .loopLine {
+    stroke: var(--accent-purple) !important;
+    stroke-width: 2px !important;
+    fill: var(--bg-secondary) !important;
+}
+
+.mermaid .note {
+    fill: var(--bg-tertiary) !important;
+    stroke: var(--accent-orange) !important;
+    stroke-width: 1px !important;
+}
+
+.mermaid .noteText {
+    fill: var(--text-primary) !important;
+    font-family: var(--font-primary) !important;
+    font-size: 12px !important;
+}
+
+/* Class Diagram styling */
+.mermaid .classBox {
+    fill: var(--bg-tertiary) !important;
+    stroke: var(--accent-blue) !important;
+    stroke-width: 2px !important;
+}
+
+.mermaid .classText {
+    fill: var(--text-primary) !important;
+    font-family: var(--font-primary) !important;
+    font-size: 14px !important;
+}
+
+.mermaid .relation {
+    stroke: var(--text-secondary) !important;
+    stroke-width: 2px !important;
+    fill: none !important;
+}
+
+/* State Diagram styling */
+.mermaid .state {
+    fill: var(--bg-tertiary) !important;
+    stroke: var(--accent-green) !important;
+    stroke-width: 2px !important;
+}
+
+.mermaid .stateText {
+    fill: var(--text-primary) !important;
+    font-family: var(--font-primary) !important;
+    font-size: 14px !important;
+    font-weight: 500 !important;
+}
+
+.mermaid .transition {
+    stroke: var(--text-secondary) !important;
+    stroke-width: 2px !important;
+    fill: none !important;
+}
+
+/* Entity Relationship Diagram styling */
+.mermaid .er.entityBox {
+    fill: var(--bg-tertiary) !important;
+    stroke: var(--accent-purple) !important;
+    stroke-width: 2px !important;
+}
+
+.mermaid .er.entityLabel {
+    fill: var(--text-primary) !important;
+    font-family: var(--font-primary) !important;
+    font-size: 14px !important;
+    font-weight: 600 !important;
+}
+
+.mermaid .er.relationshipLabel {
+    fill: var(--text-primary) !important;
+    font-family: var(--font-primary) !important;
+    font-size: 12px !important;
+}
+
+.mermaid .er.relationshipLabelBox {
+    fill: var(--bg-secondary) !important;
+    stroke: var(--border-primary) !important;
+    stroke-width: 1px !important;
+}
+
+.mermaid .er.attributeBoxEven,
+.mermaid .er.attributeBoxOdd {
+    fill: var(--bg-secondary) !important;
+    stroke: var(--border-secondary) !important;
+}
+
+/* Gantt Chart styling */
+.mermaid .grid .tick {
+    stroke: var(--border-primary) !important;
+    stroke-width: 1px !important;
+}
+
+.mermaid .grid path {
+    stroke: var(--border-primary) !important;
+    stroke-width: 1px !important;
+    fill: none !important;
+}
+
+.mermaid .taskText {
+    fill: var(--text-primary) !important;
+    font-family: var(--font-primary) !important;
+    font-size: 12px !important;
+}
+
+.mermaid .taskTextOutsideRight,
+.mermaid .taskTextOutsideLeft {
+    fill: var(--text-primary) !important;
+    font-family: var(--font-primary) !important;
+    font-size: 12px !important;
+}
+
+.mermaid .section0,
+.mermaid .section1,
+.mermaid .section2,
+.mermaid .section3 {
+    fill: var(--accent-blue) !important;
+    opacity: 0.8 !important;
+}
+
+/* Journey Diagram styling */
+.mermaid .journey-section {
+    fill: var(--bg-secondary) !important;
+    stroke: var(--border-primary) !important;
+    stroke-width: 1px !important;
+}
+
+.mermaid .journey-task {
+    fill: var(--bg-tertiary) !important;
+    stroke: var(--accent-blue) !important;
+    stroke-width: 2px !important;
+}
+
+.mermaid .journey-actor {
+    fill: var(--bg-tertiary) !important;
+    stroke: var(--accent-green) !important;
+    stroke-width: 2px !important;
+}
+
+/* Pie Chart styling */
+.mermaid .pieOuterCircle {
+    stroke: var(--border-primary) !important;
+    stroke-width: 2px !important;
+    fill: none !important;
+}
+
+.mermaid .pieTitleText {
+    fill: var(--text-primary) !important;
+    font-family: var(--font-primary) !important;
+    font-size: 16px !important;
+    font-weight: 600 !important;
+}
+
+.mermaid .slice {
+    stroke: var(--bg-primary) !important;
+    stroke-width: 2px !important;
+}
+
+.mermaid .legend text {
+    fill: var(--text-primary) !important;
+    font-family: var(--font-primary) !important;
+    font-size: 12px !important;
+}
+
+/* Category-specific node colors */
+.mermaid .devops-node {
+    fill: rgba(255, 139, 66, 0.2) !important;
+    stroke: var(--devops-color) !important;
+}
+
+.mermaid .development-node {
+    fill: rgba(88, 166, 255, 0.2) !important;
+    stroke: var(--development-color) !important;
+}
+
+.mermaid .cicd-node {
+    fill: rgba(63, 185, 80, 0.2) !important;
+    stroke: var(--cicd-color) !important;
+}
+
+.mermaid .backend-node {
+    fill: rgba(165, 163, 255, 0.2) !important;
+    stroke: var(--backend-color) !important;
+}
+
+.mermaid .frontend-node {
+    fill: rgba(247, 120, 186, 0.2) !important;
+    stroke: var(--frontend-color) !important;
+}
+
+/* Background and text improvements */
+.mermaid svg {
+    background-color: transparent !important;
+}
+
+.mermaid .background {
+    fill: transparent !important;
+}
+
+/* Make all text more readable */
+.mermaid text {
+    font-family: var(--font-primary) !important;
+    fill: var(--text-primary) !important;
+}
+
+/* Hover effects for interactive elements */
+.mermaid .node:hover rect,
+.mermaid .node:hover circle,
+.mermaid .node:hover ellipse,
+.mermaid .node:hover polygon {
+    filter: brightness(1.2) !important;
+    cursor: pointer !important;
+}
+
+/* Timeline/Gantt specific improvements */
+.mermaid .today {
+    fill: var(--accent-orange) !important;
+    stroke: var(--accent-orange) !important;
+    stroke-width: 2px !important;
+}
+
+/* Quadrant Chart styling */
+.mermaid .quadrant-point {
+    fill: var(--accent-blue) !important;
+    stroke: var(--text-primary) !important;
+    stroke-width: 2px !important;
+}
+
+.mermaid .quadrant-point-text {
+    fill: var(--text-primary) !important;
+    font-family: var(--font-primary) !important;
+    font-size: 12px !important;
+}
+
+/* XY Chart styling */
+.mermaid .xychart-plot-background {
+    fill: var(--bg-secondary) !important;
+}
+
+.mermaid .tick {
+    stroke: var(--border-primary) !important;
+    stroke-width: 1px !important;
+}
+
+.mermaid .tick text {
+    fill: var(--text-secondary) !important;
+    font-family: var(--font-primary) !important;
+    font-size: 11px !important;
+}
+
+/* Mind Map styling */
+.mermaid .mindmap-node {
+    fill: var(--bg-tertiary) !important;
+    stroke: var(--accent-blue) !important;
+    stroke-width: 2px !important;
+}
+
+.mermaid .mindmap-node-label {
+    fill: var(--text-primary) !important;
+    font-family: var(--font-primary) !important;
+    font-size: 14px !important;
+    font-weight: 500 !important;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .mermaid text {
+        font-size: 12px !important;
+    }
+    
+    .mermaid .node .label {
+        font-size: 12px !important;
+    }
+    
+    .mermaid .messageText {
+        font-size: 11px !important;
+    }
+    
+    .mermaid .classText {
+        font-size: 12px !important;
+    }
+} 
