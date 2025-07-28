@@ -130,6 +130,20 @@ graph TB
 3. Verify file permissions
 ```
 
+#### ❌ **Dependencies Lock File Error**
+```bash
+# Error: "Dependencies lock file is not found"
+# Solution: The project includes package-lock.json
+# If you encounter this error:
+
+1. Ensure package-lock.json is committed:
+   git add package-lock.json
+   git commit -m "Add package-lock.json for CI/CD"
+   
+2. The workflow now uses robust caching that handles missing files
+3. Dependencies are automatically installed during build
+```
+
 #### ❌ **Pages Not Loading**
 ```bash
 # Verify Pages settings:
