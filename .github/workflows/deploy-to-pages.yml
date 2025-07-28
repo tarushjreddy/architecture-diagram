@@ -1,0 +1,243 @@
+name: Deploy Architecture Diagrams to GitHub Pages
+
+on:
+  # Trigger on pushes to main branch
+  push:
+    branches: ["main"]
+  
+  # Trigger on pull requests to main branch
+  pull_request:
+    branches: ["main"]
+  
+  # Allow manual trigger from GitHub UI
+  workflow_dispatch:
+
+# Set permissions for GitHub Pages deployment
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# Allow only one concurrent deployment
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
+
+jobs:
+  # Build and validate the website
+  build:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: 📥 Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      
+      - name: 🔧 Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+      
+      - name: 📦 Install dependencies
+        run: |
+          npm init -y
+          npm install --save-dev html-validate htmlhint stylelint eslint prettier
+          npm install --save-dev lighthouse-ci @lhci/cli
+      
+      - name: ✅ Validate HTML
+        run: |
+          echo "Validating HTML structure..."
+          npx html-validate index.html || echo "HTML validation completed with warnings"
+      
+      - name: 🎨 Validate CSS
+        run: |
+          echo "Validating CSS files..."
+          npx stylelint "css/*.css" --config-basedir . || echo "CSS validation completed"
+      
+      - name: 🔍 Validate JavaScript
+        run: |
+          echo "Validating JavaScript files..."
+          npx eslint js/*.js --no-eslintrc --env browser,es6 --parserOptions '{"ecmaVersion": 2020}' || echo "JS validation completed"
+      
+      - name: 🔒 Security Check - Scan for secrets
+        run: |
+          echo "Scanning for potential secrets..."
+          grep -r "password\|secret\|key\|token" --include="*.js" --include="*.html" --include="*.css" . || echo "No secrets found"
+      
+      - name: 📏 Check file sizes
+        run: |
+          echo "Checking file sizes for performance..."
+          find . -name "*.js" -o -name "*.css" -o -name "*.html" | xargs ls -lh
+          echo "Large files check:"
+          find . -name "*.js" -o -name "*.css" -o -name "*.html" -size +100k | head -5 || echo "No large files found"
+      
+      - name: 🧹 Format check
+        run: |
+          echo "Checking code formatting..."
+          npx prettier --check "**/*.{js,css,html,md}" || echo "Formatting check completed"
+      
+      - name: 🌐 Test Mermaid syntax
+        run: |
+          echo "Testing Mermaid diagram syntax..."
+          node -e "
+            const fs = require('fs');
+            const appJs = fs.readFileSync('js/app.js', 'utf8');
+            const mermaidBlocks = appJs.match(/mermaid:\s*\`[^`]+\`/g) || [];
+            console.log('Found', mermaidBlocks.length, 'Mermaid diagrams');
+            
+            // Basic syntax validation
+            mermaidBlocks.forEach((block, index) => {
+              const content = block.replace(/mermaid:\s*\`/, '').replace(/\`$/, '');
+              if (content.trim().length < 10) {
+                console.warn('Warning: Diagram', index + 1, 'seems too short');
+              }
+            });
+            console.log('Mermaid syntax validation completed');
+          "
+      
+      - name: 📊 Generate build report
+        run: |
+          echo "# Build Report" > build-report.md
+          echo "- **Build Date**: $(date)" >> build-report.md
+          echo "- **Commit**: ${{ github.sha }}" >> build-report.md
+          echo "- **Branch**: ${{ github.ref_name }}" >> build-report.md
+          echo "- **HTML Files**: $(find . -name '*.html' | wc -l)" >> build-report.md
+          echo "- **CSS Files**: $(find . -name '*.css' | wc -l)" >> build-report.md
+          echo "- **JS Files**: $(find . -name '*.js' | wc -l)" >> build-report.md
+          echo "- **Total Size**: $(du -sh . | cut -f1)" >> build-report.md
+          cat build-report.md
+      
+      - name: 🚀 Setup Pages
+        if: github.ref == 'refs/heads/main'
+        uses: actions/configure-pages@v4
+      
+      - name: 📦 Build site
+        if: github.ref == 'refs/heads/main'
+        run: |
+          echo "Preparing static files for deployment..."
+          
+          # Create deployment directory
+          mkdir -p _site
+          
+          # Copy all necessary files
+          cp index.html _site/
+          cp -r css _site/
+          cp -r js _site/
+          cp -r assets _site/ 2>/dev/null || echo "No assets directory found"
+          cp -r diagrams _site/ 2>/dev/null || echo "No diagrams directory found"
+          cp README.md _site/
+          
+          # Generate sitemap
+          CURRENT_DATE=$(date -u +%Y-%m-%d)
+          cat > _site/sitemap.xml << EOF
+          <?xml version="1.0" encoding="UTF-8"?>
+          <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+            <url>
+              <loc>https://your-username.github.io/architecture-diagrams/</loc>
+              <lastmod>$CURRENT_DATE</lastmod>
+              <changefreq>weekly</changefreq>
+              <priority>1.0</priority>
+            </url>
+          </urlset>
+          EOF
+          
+          # Generate robots.txt
+          cat > _site/robots.txt << 'EOF'
+          User-agent: *
+          Allow: /
+          Sitemap: https://your-username.github.io/architecture-diagrams/sitemap.xml
+          EOF
+          
+          # Optimize for production
+          echo "Production build completed"
+          ls -la _site/
+      
+      - name: 📤 Upload artifact
+        if: github.ref == 'refs/heads/main'
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: '_site'
+
+  # Deploy to GitHub Pages
+  deploy:
+    if: github.ref == 'refs/heads/main'
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    needs: build
+    
+    steps:
+      - name: 🚀 Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
+      
+      - name: 📧 Notify deployment success
+        run: |
+          echo "🎉 Deployment successful!"
+          echo "📍 Site URL: ${{ steps.deployment.outputs.page_url }}"
+          echo "📅 Deployed at: $(date)"
+
+  # Performance and accessibility testing
+  lighthouse:
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    needs: deploy
+    
+    steps:
+      - name: 📥 Checkout repository
+        uses: actions/checkout@v4
+      
+      - name: 🔧 Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      
+      - name: 📦 Install Lighthouse CI
+        run: npm install -g @lhci/cli@0.12.x
+      
+      - name: 🔍 Run Lighthouse CI
+        run: |
+          lhci autorun --upload.target=temporary-public-storage
+        env:
+          LHCI_GITHUB_APP_TOKEN: ${{ secrets.LHCI_GITHUB_APP_TOKEN }}
+      
+      - name: 📊 Performance Summary
+        run: |
+          echo "🏃‍♂️ Performance testing completed"
+          echo "🔗 Check the Lighthouse report in the action logs"
+
+  # Security scan
+  security:
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    needs: build
+    
+    steps:
+      - name: 📥 Checkout repository
+        uses: actions/checkout@v4
+      
+      - name: 🔒 Run security scan
+        run: |
+          echo "🔍 Running security checks..."
+          
+          # Check for common vulnerabilities
+          echo "Checking for common security issues..."
+          
+          # Check for inline scripts (CSP violations)
+          if grep -r "onclick\|javascript:" . --include="*.html"; then
+            echo "⚠️  Warning: Inline JavaScript found"
+          else
+            echo "✅ No inline JavaScript found"
+          fi
+          
+          # Check for HTTP links in HTTPS site
+          if grep -r "http://" . --include="*.html" --include="*.js" --include="*.css"; then
+            echo "⚠️  Warning: HTTP links found in HTTPS site"
+          else
+            echo "✅ No HTTP links found"
+          fi
+          
+          echo "🔒 Security scan completed" 

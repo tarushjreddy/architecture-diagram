@@ -2,7 +2,8 @@
 
 A professional collection of 50 architecture diagrams covering DevOps, Development, CI/CD, Backend, and Frontend patterns, built with Mermaid.js and hosted on GitHub Pages.
 
-![Architecture Diagrams](https://img.shields.io/badge/Diagrams-50-blue)
+![Deploy Status](https://github.com/your-username/architecture-diagrams/actions/workflows/deploy-to-pages.yml/badge.svg)
+![Architecture Diagrams](https://img.shields.io/badge/Diagrams-17-blue)
 ![Mermaid.js](https://img.shields.io/badge/Mermaid.js-10.6.1-green)
 ![GitHub Pages](https://img.shields.io/badge/GitHub-Pages-red)
 ![License](https://img.shields.io/badge/License-MIT-yellow)

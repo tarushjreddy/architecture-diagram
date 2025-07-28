@@ -1,0 +1,77 @@
+{
+  "name": "architecture-diagrams-collection",
+  "version": "1.0.0",
+  "description": "A professional collection of architecture diagrams covering DevOps, Development, CI/CD, Backend, and Frontend patterns using Mermaid.js",
+  "main": "index.html",
+  "scripts": {
+    "start": "python3 -m http.server 8000",
+    "dev": "python3 -m http.server 8000",
+    "serve": "npx http-server -p 8000 -o",
+    "validate": "node scripts/validate-diagrams.js",
+    "validate:diagrams": "node scripts/validate-diagrams.js",
+    "lint": "npm run lint:html && npm run lint:css && npm run lint:js",
+    "lint:html": "npx html-validate index.html",
+    "lint:css": "npx stylelint 'css/*.css'",
+    "lint:js": "npx eslint js/*.js --no-eslintrc --env browser,es6 --parserOptions '{\"ecmaVersion\": 2020}'",
+    "format": "npx prettier --write '**/*.{js,css,html,md}'",
+    "format:check": "npx prettier --check '**/*.{js,css,html,md}'",
+    "build": "echo 'Building static site...' && mkdir -p dist && cp -r index.html css js assets diagrams dist/",
+    "test": "npm run validate && npm run lint",
+    "clean": "rm -rf dist node_modules package-lock.json",
+    "deploy:local": "npm run build && npx http-server dist -p 8000 -o",
+    "security:check": "npm audit && grep -r 'password\\|secret\\|key\\|token' --include='*.js' --include='*.html' --include='*.css' . || echo 'No secrets found'",
+    "lighthouse": "npx lighthouse http://localhost:8000 --output=html --output-path=lighthouse-report.html",
+    "size:check": "find . -name '*.js' -o -name '*.css' -o -name '*.html' | xargs ls -lh"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/your-username/architecture-diagrams.git"
+  },
+  "keywords": [
+    "architecture",
+    "diagrams",
+    "mermaid",
+    "devops",
+    "backend",
+    "frontend",
+    "cicd",
+    "development",
+    "system-design",
+    "documentation",
+    "static-site",
+    "github-pages"
+  ],
+  "author": "Your Name <your.email@example.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/your-username/architecture-diagrams/issues"
+  },
+  "homepage": "https://your-username.github.io/architecture-diagrams",
+  "devDependencies": {
+    "html-validate": "^8.0.0",
+    "stylelint": "^15.0.0",
+    "eslint": "^8.0.0",
+    "prettier": "^3.0.0",
+    "lighthouse": "^11.0.0",
+    "http-server": "^14.0.0"
+  },
+  "engines": {
+    "node": ">=16.0.0",
+    "npm": ">=8.0.0"
+  },
+  "browserslist": [
+    "> 1%",
+    "last 2 versions",
+    "not dead",
+    "not ie 11"
+  ],
+  "files": [
+    "index.html",
+    "css/",
+    "js/",
+    "assets/",
+    "diagrams/",
+    "README.md",
+    "_config.yml"
+  ]
+} 
