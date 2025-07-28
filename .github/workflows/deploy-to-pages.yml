@@ -93,21 +93,24 @@ jobs:
       - name: 🌐 Test Mermaid syntax
         run: |
           echo "Testing Mermaid diagram syntax..."
-          node -e "
-            const fs = require('fs');
-            const appJs = fs.readFileSync('js/app.js', 'utf8');
-            const mermaidBlocks = appJs.match(/mermaid:\s*\`[^`]+\`/g) || [];
-            console.log('Found', mermaidBlocks.length, 'Mermaid diagrams');
+          if [ -f "scripts/validate-diagrams.js" ]; then
+            echo "Running diagram validation script..."
+            node scripts/validate-diagrams.js
+          else
+            echo "Validation script not found, performing basic checks..."
+            # Count mermaid blocks in app.js
+            DIAGRAM_COUNT=$(grep -c "mermaid:" js/app.js || echo "0")
+            echo "Found $DIAGRAM_COUNT Mermaid diagram definitions"
             
-            // Basic syntax validation
-            mermaidBlocks.forEach((block, index) => {
-              const content = block.replace(/mermaid:\s*\`/, '').replace(/\`$/, '');
-              if (content.trim().length < 10) {
-                console.warn('Warning: Diagram', index + 1, 'seems too short');
-              }
-            });
-            console.log('Mermaid syntax validation completed');
-          "
+            # Check for basic syntax issues
+            if grep -q "graph\|flowchart\|sequenceDiagram" js/app.js; then
+              echo "✅ Valid diagram types found"
+            else
+              echo "⚠️  Warning: No standard diagram types detected"
+            fi
+            
+            echo "Mermaid syntax validation completed"
+          fi
       
       - name: 📊 Generate build report
         run: |
